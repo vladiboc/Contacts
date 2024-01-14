@@ -1,11 +1,11 @@
 package org.example;
 
-import org.example.bean.AppManager;
+import org.example.bean.ContactManager;
 
 public class Main {
   public static void main(String[] args) {
-    AppManager appManager = new AppManager();
-    appManager.doWork();
+    ContactManager contactManager = new ContactManager();
+    contactManager.doWork();
   }
 
 }

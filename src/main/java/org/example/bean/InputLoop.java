@@ -15,7 +15,9 @@ public class InputLoop {
       }
       handler.handle(input);
     }
-    scanner.close();
   }
 
+  public interface InputHandler {
+    void handle(String input);
+  }
 }
