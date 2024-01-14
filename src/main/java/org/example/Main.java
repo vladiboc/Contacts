@@ -1,7 +1,11 @@
 package org.example;
 
+import org.example.bean.AppManager;
+
 public class Main {
   public static void main(String[] args) {
-    System.out.println("Hello world!");
+    AppManager appManager = new AppManager();
+    appManager.doWork();
   }
+
 }
