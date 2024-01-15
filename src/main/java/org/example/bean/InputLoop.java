@@ -8,15 +8,16 @@ import java.util.Scanner;
 public class InputLoop {
   private final Scanner scanner = new Scanner(System.in);
 
-  public void readInput(String message, InputHandler handler) {
+  public void readInput(String menuMessage, String byeMessage, InputHandler handler) {
     while (true) {
-      System.out.println(message);
+      System.out.println(menuMessage);
       String input = this.scanner.nextLine();
-      handler.handle(input);
-      if (input.equals("0")) {
-        System.out.println("До свидания!");
+
+      if (input.isEmpty()) {
+        System.out.println(byeMessage);
         break;
       }
+      handler.handle(input);
     }
   }
 

@@ -1,4 +1,10 @@
 package org.example.data;
 
-public class Contact {
+public record Contact(String fio, String phoneNumber, String emailAddress) {
+
+  @Override
+  public String toString() {
+    return fio + " | " + phoneNumber + " | " + emailAddress;
+  }
+
 }

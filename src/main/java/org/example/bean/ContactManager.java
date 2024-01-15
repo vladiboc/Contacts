@@ -1,47 +1,35 @@
 package org.example.bean;
 
-import org.example.util.Values;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.data.Contact;
+import org.example.util.InfoStrings;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
 
 @Component
 public class ContactManager {
+  private final Map<String, Contact> contacts = new TreeMap<>();
 
-  private final InputLoop inputLoop;
-
-  @Autowired
-  public ContactManager(InputLoop inputLoop) {
-    this.inputLoop = inputLoop;
-  }
-
-  public void doWork() {
-    this.inputLoop.readInput(Values.MAIN_MENU, this::handleMainMenu);
-  }
-
-  private void handleMainMenu(String input) {
-    switch (input) {
-      case "1" -> this.listContacts();
-      case "2" -> this.addContact();
-      case "3" -> this.removeContact();
-      case "4" -> this.saveContacts();
-      case "0" -> {}
-      default -> System.out.println(input + " - неправильный ввод. Введите цифру из меню и Enter.");
+  public void listContacts() {
+    for(Map.Entry<String, Contact> entry : contacts.entrySet()) {
+      System.out.println(entry.getValue());
     }
   }
 
-  private void listContacts() {
+  public void addContact() {
+    System.out.println(InfoStrings.ADD_CONTACT);
+    Scanner scanner = new Scanner(System.in);
+    String input = scanner.nextLine();
+    System.out.println("Введено: " + input);
+  }
+
+  public void removeContact() {
 
   }
 
-  private void addContact() {
-
-  }
-
-  private void removeContact() {
-
-  }
-
-  private void saveContacts() {
+  public void saveContacts() {
 
   }
 
