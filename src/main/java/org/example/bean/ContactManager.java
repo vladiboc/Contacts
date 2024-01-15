@@ -1,20 +1,48 @@
 package org.example.bean;
 
+import org.example.util.Values;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class ContactManager {
 
-  InputLoop inputLoop = new InputLoop();
+  private final InputLoop inputLoop;
+
+  @Autowired
+  public ContactManager(InputLoop inputLoop) {
+    this.inputLoop = inputLoop;
+  }
 
   public void doWork() {
-    inputLoop.readInput("Введите строку:", this::handle);
+    this.inputLoop.readInput(Values.MAIN_MENU, this::handleMainMenu);
   }
 
-  public void handle(String input) {
-    System.out.println("Строка: " + input);
-    inputLoop.readInput("Еще одну строку: ", this::handle2);
+  private void handleMainMenu(String input) {
+    switch (input) {
+      case "1" -> this.listContacts();
+      case "2" -> this.addContact();
+      case "3" -> this.removeContact();
+      case "4" -> this.saveContacts();
+      case "0" -> {}
+      default -> System.out.println(input + " - неправильный ввод. Введите цифру из меню и Enter.");
+    }
   }
 
-  public void handle2(String input) {
-    System.out.println("2-я строка: " + input);
+  private void listContacts() {
+
+  }
+
+  private void addContact() {
+
+  }
+
+  private void removeContact() {
+
+  }
+
+  private void saveContacts() {
+
   }
 
 }
