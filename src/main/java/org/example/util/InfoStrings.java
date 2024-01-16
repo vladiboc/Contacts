@@ -12,12 +12,17 @@ public class InfoStrings {
   public static final String MAIN_MENU_INCORRECT_INPUT =
       " - неправильный ввод. Введите цифру из меню и Enter.";
 
-  public static final String BYE =
-      "До свидания!";
+  public static final String BYE = "До свидания!";
+
+  public static final String LIST_OF_CONTACTS = "Список контактов: ";
 
   public static final String ADD_CONTACT =
       "Введите новый контакт в заданном формате, например:" + System.lineSeparator() +
-      "Иванов Иван Иванович; +79991234567; ivanov@mail.ru";
+          "Иванов Иван Иванович; +79991234567; ivanov@mail.ru";
+
+  public static final String CONTACT_ADDED = "Добавлен контакт: ";
+
+  public static final String CONTACT_INPUT_ERROR = "Ошибка ввода контакта: ";
 
   private InfoStrings() {
   }

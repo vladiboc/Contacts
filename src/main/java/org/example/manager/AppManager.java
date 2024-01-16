@@ -1,4 +1,4 @@
-package org.example.bean;
+package org.example.manager;
 
 import org.example.util.InfoStrings;
 import org.springframework.beans.factory.annotation.Autowired;
