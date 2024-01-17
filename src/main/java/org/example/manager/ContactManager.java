@@ -16,14 +16,12 @@ import java.util.TreeMap;
 @Component
 public class ContactManager {
   private final Map<String, Contact> contacts = new TreeMap<>();
-  private final ObjectFactory<Contact> contactObjectFactory;
-
-  @Autowired
-  public ContactManager(ObjectFactory<Contact> contactObjectFactory) {
-    this.contactObjectFactory = contactObjectFactory;
-  }
 
   public void listContacts() {
+    if (this.contacts.isEmpty()) {
+      System.out.println(InfoStrings.EMPTY_CONTACTS);
+      return;
+    }
     System.out.println(InfoStrings.LIST_OF_CONTACTS);
     for(Map.Entry<String, Contact> entry : contacts.entrySet()) {
       System.out.println(entry.getValue());
@@ -36,7 +34,7 @@ public class ContactManager {
     String input = scanner.nextLine();
     try {
       Contact newContact = parseContactInput(input);
-      this.contacts.put(newContact.getEmailAddress(), newContact);
+      this.contacts.put(newContact.emailAddress(), newContact);
       System.out.println(InfoStrings.CONTACT_ADDED + newContact);
     } catch (Exception e) {
       System.out.println(InfoStrings.CONTACT_INPUT_ERROR + e.getMessage());
@@ -65,15 +63,12 @@ public class ContactManager {
 
   private Contact parseContactInput(String input) throws NewContactStringException {
     String[] inputFields = Checkers.checkInputFields(input);
+
     String fio = Checkers.checkFio(inputFields[0]);
     String phoneNumber = Checkers.checkPhoneNumber(inputFields[1]);
     String emailAddress = Checkers.checkEmailAddress(inputFields[2]);
 
-    Contact newContact = contactObjectFactory.getObject();
-    newContact.setFio(fio);
-    newContact.setPhoneNumber(phoneNumber);
-    newContact.setEmailAddress(emailAddress);
-    return newContact;
+    return new Contact(fio, phoneNumber, emailAddress);
   }
 
 }
