@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 @Component
 public class InputLoop {
-  private final Scanner scanner = new Scanner(System.in);
 
   public void readInput(String menuMessage, String byeMessage, InputHandler handler) {
+    final Scanner scanner = new Scanner(System.in);
     while (true) {
       System.out.println(menuMessage);
-      String input = this.scanner.nextLine();
+      String input = scanner.nextLine();
 
       if (input.isEmpty()) {
         System.out.println(byeMessage);

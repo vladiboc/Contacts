@@ -6,6 +6,8 @@ public class ErrorStrings {
   public static final String NANE_TO_BE_CORRECT = "Фамилия, Имя, Отчество - русскими буквами, с большой, дальше маленькие!";
   public static final String PHONE_NUMBER_TO_BE_CORRECT = "Номер телефона должен начинаться на +7 и содержать ровно 11 цифр!";
   public static final String EMAIL_ADDRESS_TO_BE_CORRECT = "Адрес email задан некорректно!";
+  public static final String CONTACT_REMOVE_ERROR = "Контакт с таким email не существует!";
 
   private ErrorStrings() {}
+
 }
