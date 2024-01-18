@@ -1,22 +1,32 @@
-package org.example.manager;
+package org.example.bean;
 
 import org.example.util.InfoStrings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Scanner;
+
 @Component
 public class AppManager {
-  private final InputLoop inputLoop;
   private final ContactManager contactManager;
 
   @Autowired
-  public AppManager(InputLoop inputLoop, ContactManager contactManager) {
-    this.inputLoop = inputLoop;
+  public AppManager(ContactManager contactManager) {
     this.contactManager = contactManager;
   }
 
   public void doWork() {
-    this.inputLoop.readInput(InfoStrings.MAIN_MENU, InfoStrings.BYE, this::handleMainMenu);
+    final Scanner scanner = new Scanner(System.in);
+    while (true) {
+      System.out.println(InfoStrings.MAIN_MENU);
+      String input = scanner.nextLine();
+
+      if (input.isEmpty()) {
+        System.out.println(InfoStrings.BYE);
+        break;
+      }
+      this.handleMainMenu(input);
+    }
   }
 
   private void handleMainMenu(String input) {

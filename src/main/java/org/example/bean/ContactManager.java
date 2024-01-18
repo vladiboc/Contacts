@@ -1,12 +1,10 @@
-package org.example.manager;
+package org.example.bean;
 
 import org.example.data.Contact;
-import org.example.exception.NewContactStringException;
+import org.example.exception.WrongContactStringException;
 import org.example.util.Checkers;
 import org.example.util.ErrorStrings;
 import org.example.util.InfoStrings;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -18,8 +16,7 @@ public class ContactManager {
   private final Map<String, Contact> contacts = new TreeMap<>();
 
   public void listContacts() {
-    if (this.contacts.isEmpty()) {
-      System.out.println(InfoStrings.EMPTY_CONTACTS);
+    if (this.isContactsListEmpty()) {
       return;
     }
     System.out.println(InfoStrings.LIST_OF_CONTACTS);
@@ -42,26 +39,36 @@ public class ContactManager {
   }
 
   public void removeContact() {
-    if (this.contacts.isEmpty()) {
-      System.out.println(InfoStrings.EMPTY_CONTACTS);
+    if (this.isContactsListEmpty()) {
       return;
     }
     System.out.println(InfoStrings.ENTER_EMAIL);
     Scanner scanner = new Scanner(System.in);
     String input = scanner.nextLine();
     Contact removedContact = this.contacts.remove(input);
-    if (removedContact != null) {
-      System.out.println(InfoStrings.CONTACT_REMOVED + removedContact);
-    } else {
+    if (removedContact == null) {
       System.out.println(ErrorStrings.CONTACT_REMOVE_ERROR);
+    } else {
+      System.out.println(InfoStrings.CONTACT_REMOVED + removedContact);
     }
   }
 
   public void saveContacts() {
+    if (this.isContactsListEmpty()) {
+      return;
+    }
 
   }
 
-  private Contact parseContactInput(String input) throws NewContactStringException {
+  private boolean isContactsListEmpty() {
+    boolean isContactsListEmpty = this.contacts.isEmpty();
+    if (isContactsListEmpty) {
+      System.out.println(InfoStrings.EMPTY_CONTACTS);
+    }
+    return isContactsListEmpty;
+  }
+
+  private Contact parseContactInput(String input) throws WrongContactStringException {
     String[] inputFields = Checkers.checkInputFields(input);
 
     String fio = Checkers.checkFio(inputFields[0]);
