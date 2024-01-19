@@ -1,10 +1,13 @@
 package org.example.bean;
 
 import org.example.data.Contact;
+import org.example.exception.ContactInputOutputException;
 import org.example.exception.WrongContactStringException;
 import org.example.util.Checkers;
 import org.example.util.ErrorStrings;
 import org.example.util.InfoStrings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -13,7 +16,14 @@ import java.util.TreeMap;
 
 @Component
 public class ContactManager {
-  private final Map<String, Contact> contacts = new TreeMap<>();
+  private final Map<String, Contact> contacts;
+  private final ContactInputOutput contactIO;
+
+  @Autowired
+  public ContactManager(ContactInputOutput contactIO) {
+    this.contactIO = contactIO;
+    this.contacts = this.initContacts();
+  }
 
   public void listContacts() {
     if (this.isContactsListEmpty()) {
@@ -57,7 +67,25 @@ public class ContactManager {
     if (this.isContactsListEmpty()) {
       return;
     }
+    try {
+      contactIO.save(this.contacts);
+      System.out.println(InfoStrings.CONTACTS_SAVED);
+    } catch (ContactInputOutputException e) {
+      System.out.println(e.getMessage());
+    }
+  }
 
+  private Map<String, Contact> initContacts() {
+    Map<String, Contact> contacts = new TreeMap<>();
+//    if (this.contactsProfiles.equals("init")) {
+//      try {
+//        contacts = contactIO.load();
+//        System.out.println(InfoStrings.CONTACTS_LOADED);
+//      } catch (ContactInputOutputException e) {
+//        System.out.println(e.getMessage());
+//      }
+//    }
+    return contacts;
   }
 
   private boolean isContactsListEmpty() {
