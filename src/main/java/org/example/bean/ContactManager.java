@@ -3,16 +3,13 @@ package org.example.bean;
 import org.example.data.Contact;
 import org.example.exception.ContactInputOutputException;
 import org.example.exception.WrongContactStringException;
-import org.example.util.Checkers;
 import org.example.util.ErrorStrings;
 import org.example.util.InfoStrings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 @Component
 public class ContactManager {
@@ -22,7 +19,7 @@ public class ContactManager {
   @Autowired
   public ContactManager(ContactInputOutput contactIO) {
     this.contactIO = contactIO;
-    this.contacts = this.initContacts();
+    this.contacts = contactIO.initContacts();
   }
 
   public void listContacts() {
@@ -40,10 +37,10 @@ public class ContactManager {
     Scanner scanner = new Scanner(System.in);
     String input = scanner.nextLine();
     try {
-      Contact newContact = parseContactInput(input);
+      Contact newContact = contactIO.parseContactFromInput(input);
       this.contacts.put(newContact.emailAddress(), newContact);
       System.out.println(InfoStrings.CONTACT_ADDED + newContact);
-    } catch (Exception e) {
+    } catch (WrongContactStringException e) {
       System.out.println(InfoStrings.CONTACT_INPUT_ERROR + e.getMessage());
     }
   }
@@ -75,35 +72,12 @@ public class ContactManager {
     }
   }
 
-  private Map<String, Contact> initContacts() {
-    Map<String, Contact> contacts = new TreeMap<>();
-//    if (this.contactsProfiles.equals("init")) {
-//      try {
-//        contacts = contactIO.load();
-//        System.out.println(InfoStrings.CONTACTS_LOADED);
-//      } catch (ContactInputOutputException e) {
-//        System.out.println(e.getMessage());
-//      }
-//    }
-    return contacts;
-  }
-
   private boolean isContactsListEmpty() {
     boolean isContactsListEmpty = this.contacts.isEmpty();
     if (isContactsListEmpty) {
       System.out.println(InfoStrings.EMPTY_CONTACTS);
     }
     return isContactsListEmpty;
-  }
-
-  private Contact parseContactInput(String input) throws WrongContactStringException {
-    String[] inputFields = Checkers.checkInputFields(input);
-
-    String fio = Checkers.checkFio(inputFields[0]);
-    String phoneNumber = Checkers.checkPhoneNumber(inputFields[1]);
-    String emailAddress = Checkers.checkEmailAddress(inputFields[2]);
-
-    return new Contact(fio, phoneNumber, emailAddress);
   }
 
 }

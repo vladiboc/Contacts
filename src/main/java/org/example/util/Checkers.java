@@ -1,11 +1,12 @@
 package org.example.util;
 
+import org.example.data.Contact;
 import org.example.exception.WrongContactStringException;
 
 public class Checkers {
 
-  public static String[] checkInputFields(String input) throws WrongContactStringException {
-    String[] inputFields = input.split("; ");
+  public static String[] checkInputFields(String contactString, String fieldSeparator) throws WrongContactStringException {
+    String[] inputFields = contactString.split(fieldSeparator);
     if (inputFields.length != 3) {
       throw new WrongContactStringException(ErrorStrings.THREE_FIELDS_NEEDED);
     }
