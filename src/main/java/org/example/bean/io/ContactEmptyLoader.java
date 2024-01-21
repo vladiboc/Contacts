@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @Component
-public class ContactEmptyList implements ContactInitializer {
+public class ContactEmptyLoader implements ContactInitializer {
 
   @Override
   public Map<String, Contact> init() {
