@@ -1,4 +1,4 @@
-package org.example.bean;
+package org.example.bean.io;
 
 import org.example.data.Contact;
 

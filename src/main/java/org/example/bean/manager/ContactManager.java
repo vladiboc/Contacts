@@ -1,7 +1,9 @@
-package org.example.bean;
+package org.example.bean.manager;
 
+import org.example.bean.io.ContactInitializer;
+import org.example.bean.io.ContactParser;
+import org.example.bean.io.ContactSaver;
 import org.example.data.Contact;
-import org.example.exception.ContactInputOutputException;
 import org.example.exception.WrongContactStringException;
 import org.example.util.ErrorStrings;
 import org.example.util.InfoStrings;
@@ -14,11 +16,14 @@ import java.util.Scanner;
 @Component
 public class ContactManager {
   private final Map<String, Contact> contacts;
-  private final ContactInputOutput contactIO;
+  private final ContactParser contactParser;
+  private final ContactSaver contactSaver;
 
   @Autowired
-  public ContactManager(ContactInputOutput contactIO, ContactInitializer contactInitializer) {
-    this.contactIO = contactIO;
+  public ContactManager(
+      ContactSaver contactSaver, ContactParser contactParser, ContactInitializer contactInitializer) {
+    this.contactSaver = contactSaver;
+    this.contactParser = contactParser;
     this.contacts = contactInitializer.init();
   }
 
@@ -37,7 +42,7 @@ public class ContactManager {
     Scanner scanner = new Scanner(System.in);
     String input = scanner.nextLine();
     try {
-      Contact newContact = contactIO.parseContactFromInput(input);
+      Contact newContact = contactParser.parseContactFromInput(input);
       this.contacts.put(newContact.emailAddress(), newContact);
       System.out.println(InfoStrings.CONTACT_ADDED + newContact);
     } catch (WrongContactStringException e) {
@@ -64,12 +69,7 @@ public class ContactManager {
     if (this.isContactsListEmpty()) {
       return;
     }
-    try {
-      contactIO.save(this.contacts);
-      System.out.println(InfoStrings.CONTACTS_SAVED);
-    } catch (ContactInputOutputException e) {
-      System.out.println(e.getMessage());
-    }
+    contactSaver.save(this.contacts);
   }
 
   private boolean isContactsListEmpty() {

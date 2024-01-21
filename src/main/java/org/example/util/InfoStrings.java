@@ -20,8 +20,9 @@ public class InfoStrings {
   public static final String EMPTY_CONTACTS = "Список контактов пуст!";
   public static final String ENTER_EMAIL = "Введите email удаляемого контакта: ";
   public static final String CONTACT_REMOVED = "Удалён контакт: " + System.lineSeparator();
+  public static final String LOAD_CONTACTS_FROM = "Загружаем список контактов из файла: ";
   public static final String CONTACTS_LOADED = "Список контактов успешно загружен!";
-  public static final String CONTACTS_SAVED = "Список контактов успешно сохранён!";
+  public static final String CONTACTS_SAVED_TO = "Список контактов успешно сохранён в файл: ";
 
   private InfoStrings() {
   }

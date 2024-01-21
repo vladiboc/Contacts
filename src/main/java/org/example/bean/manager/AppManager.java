@@ -1,10 +1,9 @@
-package org.example.bean;
+package org.example.bean.manager;
 
 import org.example.util.InfoStrings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PreDestroy;
 import java.util.Scanner;
 
 @Component

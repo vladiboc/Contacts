@@ -1,12 +1,14 @@
-package org.example.bean;
+package org.example.bean.io;
 
 import org.example.data.Contact;
 import org.example.exception.ContactInputOutputException;
 import org.example.exception.WrongContactStringException;
 import org.example.util.ErrorStrings;
+import org.example.util.InfoStrings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,6 +28,11 @@ public class ContactFileLoader implements ContactInitializer {
     this.contactParser = contactParser;
   }
 
+  @PostConstruct
+  public void afterInit() {
+    System.out.println(InfoStrings.LOAD_CONTACTS_FROM + this.loadPath);
+  }
+
   @Override
   public Map<String, Contact> init() {
     Map<String, Contact> contactsMap = new TreeMap<>();
@@ -36,19 +43,16 @@ public class ContactFileLoader implements ContactInitializer {
       }
       List<String> contactsList = Files.readAllLines(Path.of(this.loadPath));
       for (; lineNumber < contactsList.size(); lineNumber++) {
-        Contact contact = this.parseContactFromFile(contactsList.get(lineNumber));
+        Contact contact = contactParser.parseContactFromFile(contactsList.get(lineNumber));
         contactsMap.put(contact.emailAddress(), contact);
       }
+      System.out.println(InfoStrings.CONTACTS_LOADED);
     } catch (IOException | ContactInputOutputException e) {
       System.out.println(ErrorStrings.LOAD_FILE_ERROR + e);
     } catch (WrongContactStringException e) {
       System.out.println(ErrorStrings.LOAD_FILE_ERROR + ErrorStrings.LINE_NUMBER + lineNumber + " " + e);
     }
     return contactsMap;
-  }
-
-  private Contact parseContactFromFile(String contactString) throws WrongContactStringException {
-    return contactParser.parseContactString(contactString, Contact.FIELD_SEPARATOR_FOR_FILE);
   }
 
 }

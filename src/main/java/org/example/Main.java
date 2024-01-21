@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.config.AppConfig;
-import org.example.bean.AppManager;
+import org.example.bean.manager.AppManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
