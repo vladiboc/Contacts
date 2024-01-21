@@ -8,7 +8,7 @@ public class ErrorStrings {
   public static final String EMAIL_ADDRESS_TO_BE_CORRECT = "Адрес email задан некорректно!";
   public static final String CONTACT_REMOVE_ERROR = "Ошибка удаления контакта: Контакт с таким email не существует!";
   public static final String LOAD_FILE_ERROR = "Ошибка загрузки файла: ";
-  public static final String STRING_NUMBER = "Строка номер: ";
+  public static final String LINE_NUMBER = "Строка номер: ";
   public static final String FILE_TOO_BIG = "Ошибка загрузки файла: Файл слишком большой!";
   public static final String SAVE_FILE_ERROR = "Ошибка сохранения файла: ";
 

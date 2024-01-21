@@ -17,9 +17,9 @@ public class ContactManager {
   private final ContactInputOutput contactIO;
 
   @Autowired
-  public ContactManager(ContactInputOutput contactIO) {
+  public ContactManager(ContactInputOutput contactIO, ContactInitializer contactInitializer) {
     this.contactIO = contactIO;
-    this.contacts = contactIO.initContacts();
+    this.contacts = contactInitializer.init();
   }
 
   public void listContacts() {

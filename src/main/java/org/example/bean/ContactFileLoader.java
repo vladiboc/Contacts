@@ -1,0 +1,54 @@
+package org.example.bean;
+
+import org.example.data.Contact;
+import org.example.exception.ContactInputOutputException;
+import org.example.exception.WrongContactStringException;
+import org.example.util.ErrorStrings;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class ContactFileLoader implements ContactInitializer {
+  @Value("${contacts.file.load}")
+  private String loadPath;
+  @Value("${contacts.file.max-load-size}")
+  private int maxLoadSize;
+  private final ContactParser contactParser;
+
+  @Autowired
+  public ContactFileLoader(ContactParser contactParser) {
+    this.contactParser = contactParser;
+  }
+
+  @Override
+  public Map<String, Contact> init() {
+    Map<String, Contact> contactsMap = new TreeMap<>();
+    int lineNumber = 0;
+    try {
+      if (this.maxLoadSize < Files.size(Path.of(this.loadPath))) {
+        throw new ContactInputOutputException(ErrorStrings.FILE_TOO_BIG);
+      }
+      List<String> contactsList = Files.readAllLines(Path.of(this.loadPath));
+      for (; lineNumber < contactsList.size(); lineNumber++) {
+        Contact contact = this.parseContactFromFile(contactsList.get(lineNumber));
+        contactsMap.put(contact.emailAddress(), contact);
+      }
+    } catch (IOException | ContactInputOutputException e) {
+      System.out.println(ErrorStrings.LOAD_FILE_ERROR + e);
+    } catch (WrongContactStringException e) {
+      System.out.println(ErrorStrings.LOAD_FILE_ERROR + ErrorStrings.LINE_NUMBER + lineNumber + " " + e);
+    }
+    return contactsMap;
+  }
+
+  private Contact parseContactFromFile(String contactString) throws WrongContactStringException {
+    return contactParser.parseContactString(contactString, Contact.FIELD_SEPARATOR_FOR_FILE);
+  }
+
+}
