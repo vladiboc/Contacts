@@ -90,3 +90,6 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+# Файлы данных
+*.txt

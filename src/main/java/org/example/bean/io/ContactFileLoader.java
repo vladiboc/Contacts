@@ -20,7 +20,7 @@ public class ContactFileLoader implements ContactInitializer {
   @Value("${contacts.file.load}")
   private String loadPath;
   @Value("${contacts.file.max-load-size}")
-  private int maxLoadSize;
+  private String maxLoadSize;
   private final ContactParser contactParser;
 
   @Autowired
@@ -38,7 +38,7 @@ public class ContactFileLoader implements ContactInitializer {
     Map<String, Contact> contactsMap = new TreeMap<>();
     int lineNumber = 0;
     try {
-      if (this.maxLoadSize < Files.size(Path.of(this.loadPath))) {
+      if (Integer.valueOf(this.maxLoadSize) < Files.size(Path.of(this.loadPath))) {
         throw new ContactInputOutputException(ErrorStrings.FILE_TOO_BIG);
       }
       List<String> contactsList = Files.readAllLines(Path.of(this.loadPath));
