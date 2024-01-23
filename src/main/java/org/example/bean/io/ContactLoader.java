@@ -4,7 +4,7 @@ import org.example.data.Contact;
 
 import java.util.Map;
 
-public interface ContactInitializer {
+public interface ContactLoader {
 
-  Map<String, Contact> init();
+  Map<String, Contact> load();
 }

@@ -1,7 +1,7 @@
 package org.example.config;
 
 import org.example.bean.io.ContactFileLoader;
-import org.example.bean.io.ContactInitializer;
+import org.example.bean.io.ContactLoader;
 import org.example.bean.io.ContactParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -19,7 +19,7 @@ public class InitAppConfig {
 
   @Bean
   @Primary
-  public ContactInitializer contactInitializer() {
+  public ContactLoader contactLoader() {
     return new ContactFileLoader(this.contactParser);
   }
 

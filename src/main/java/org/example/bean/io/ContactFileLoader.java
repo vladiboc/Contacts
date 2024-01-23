@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ContactFileLoader implements ContactInitializer {
+public class ContactFileLoader implements ContactLoader {
   @Value("${contacts.file.load}")
   private String loadPath;
   @Value("${contacts.file.max-load-size}")
@@ -34,16 +34,16 @@ public class ContactFileLoader implements ContactInitializer {
   }
 
   @Override
-  public Map<String, Contact> init() {
-    Map<String, Contact> contactsMap = new TreeMap<>();
+  public Map<String, Contact> load() {
+    final Map<String, Contact> contactsMap = new TreeMap<>();
     int lineNumber = 0;
     try {
       if (Integer.valueOf(this.maxLoadSize) < Files.size(Path.of(this.loadPath))) {
         throw new ContactInputOutputException(ErrorStrings.FILE_TOO_BIG);
       }
-      List<String> contactsList = Files.readAllLines(Path.of(this.loadPath));
+      final List<String> contactsList = Files.readAllLines(Path.of(this.loadPath));
       for (; lineNumber < contactsList.size(); lineNumber++) {
-        Contact contact = contactParser.parseContactFromFile(contactsList.get(lineNumber));
+        final Contact contact = contactParser.parseContactFromFile(contactsList.get(lineNumber));
         contactsMap.put(contact.emailAddress(), contact);
       }
       System.out.println(InfoStrings.CONTACTS_LOADED);

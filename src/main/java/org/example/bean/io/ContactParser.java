@@ -16,12 +16,12 @@ public class ContactParser {
     return this.parseContactString(fileString, Contact.FIELD_SEPARATOR_FOR_FILE);
   }
 
-  public Contact parseContactString(String contactString, String fieldSeparator) throws WrongContactStringException {
-    String[] inputFields = Checkers.checkInputFields(contactString, fieldSeparator);
+  private Contact parseContactString(String contactString, String fieldSeparator) throws WrongContactStringException {
+    final String[] inputFields = Checkers.checkInputFields(contactString, fieldSeparator);
 
-    String fio = Checkers.checkFio(inputFields[0]);
-    String phoneNumber = Checkers.checkPhoneNumber(inputFields[1]);
-    String emailAddress = Checkers.checkEmailAddress(inputFields[2]);
+    final String fio = Checkers.checkFio(inputFields[0]);
+    final String phoneNumber = Checkers.checkPhoneNumber(inputFields[1]);
+    final String emailAddress = Checkers.checkEmailAddress(inputFields[2]);
 
     return new Contact(fio, phoneNumber, emailAddress);
   }

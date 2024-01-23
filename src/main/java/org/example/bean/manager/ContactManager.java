@@ -1,6 +1,6 @@
 package org.example.bean.manager;
 
-import org.example.bean.io.ContactInitializer;
+import org.example.bean.io.ContactLoader;
 import org.example.bean.io.ContactParser;
 import org.example.bean.io.ContactSaver;
 import org.example.data.Contact;
@@ -21,10 +21,10 @@ public class ContactManager {
 
   @Autowired
   public ContactManager(
-      ContactSaver contactSaver, ContactParser contactParser, ContactInitializer contactInitializer) {
+      ContactSaver contactSaver, ContactParser contactParser, ContactLoader contactLoader) {
     this.contactSaver = contactSaver;
     this.contactParser = contactParser;
-    this.contacts = contactInitializer.init();
+    this.contacts = contactLoader.load();
   }
 
   public void listContacts() {
@@ -39,10 +39,10 @@ public class ContactManager {
 
   public void addContact() {
     System.out.println(InfoStrings.ADD_CONTACT);
-    Scanner scanner = new Scanner(System.in);
-    String input = scanner.nextLine();
+    final Scanner scanner = new Scanner(System.in);
+    final String input = scanner.nextLine();
     try {
-      Contact newContact = contactParser.parseContactFromInput(input);
+      final Contact newContact = contactParser.parseContactFromInput(input);
       this.contacts.put(newContact.emailAddress(), newContact);
       System.out.println(InfoStrings.CONTACT_ADDED + newContact);
     } catch (WrongContactStringException e) {
@@ -55,9 +55,9 @@ public class ContactManager {
       return;
     }
     System.out.println(InfoStrings.ENTER_EMAIL);
-    Scanner scanner = new Scanner(System.in);
-    String input = scanner.nextLine();
-    Contact removedContact = this.contacts.remove(input);
+    final Scanner scanner = new Scanner(System.in);
+    final String input = scanner.nextLine();
+    final Contact removedContact = this.contacts.remove(input);
     if (removedContact == null) {
       System.out.println(ErrorStrings.CONTACT_REMOVE_ERROR);
     } else {
@@ -73,7 +73,7 @@ public class ContactManager {
   }
 
   private boolean isContactsListEmpty() {
-    boolean isContactsListEmpty = this.contacts.isEmpty();
+    final boolean isContactsListEmpty = this.contacts.isEmpty();
     if (isContactsListEmpty) {
       System.out.println(InfoStrings.EMPTY_CONTACTS);
     }

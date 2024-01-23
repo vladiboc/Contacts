@@ -20,7 +20,7 @@ public class ContactSaver {
   private String savePath;
 
   public void save(Map<String, Contact> contacts) {
-    List<String> contactsList = new ArrayList<>();
+    final List<String> contactsList = new ArrayList<>();
     for (Map.Entry<String, Contact> entry : contacts.entrySet()) {
       contactsList.add(entry.getValue().toFileString());
     }
