@@ -8,6 +8,7 @@ import org.springframework.context.annotation.*;
 
 @Configuration
 @PropertySource("classpath:contacts-init.properties")
+//@PropertySource("file:contacts-init.properties")
 @Profile("init")
 public class InitAppConfig {
   private final ContactParser contactParser;
